@@ -30,24 +30,6 @@ func VerifyPassword(hashedPassword string, candidatePassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(candidatePassword))
 }
 
-func GenerateJWT() (string, error) {
-    // Create a new token object
-    token := jwt.New(jwt.SigningMethodHS256)
-
-    // Set the claims (payload) of the token
-    claims := token.Claims.(jwt.MapClaims)
-    claims["user_id"] = 123
-    claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-
-    // Generate the JWT token string
-    tokenString, err := token.SignedString([]byte("your-secret-key"))
-    if err != nil {
-        return "", err
-    }
-
-    return tokenString, nil
-}
-
 
 func GenerateToken(email string) (string, error) {
 	err := godotenv.Load()

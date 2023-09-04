@@ -27,7 +27,6 @@ func main() {
 			// User query
 			"user": resolvers.GetUser(db),
 			"users":resolvers.GetUsers(db),
-			
 		},
 	})
 
