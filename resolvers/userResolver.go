@@ -108,7 +108,7 @@ func CreateUser(db *sql.DB) *graphql.Field {
 		Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 			name, _ := params.Args["name"].(string)
 			email, _ := params.Args["email"].(string)
-			password, _ := params.Args["password"].(string)
+			password, _ := utils.HashPassword(params.Args["password"].(string))
 			createdAt := time.Now()
 			updatedAt := time.Now()
 

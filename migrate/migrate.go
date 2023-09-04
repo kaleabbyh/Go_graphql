@@ -2,30 +2,34 @@ package main
 
 import (
 	"fmt"
+	"os"
 	models "sample/model"
+	"sample/utils"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 
-const (
-	DB_HOST     = "localhost"
-	DB_PORT     = "5432"
-	DB_USER     = "postgres"
-	DB_PASSWORD = "Kaleabbyh@2"
-	DB_NAME     = "postgres"
-)
 
 
 func ConnectDB() (*gorm.DB, error) {
+
+	err := godotenv.Load()
+	utils.CheckErr(err)
+
+		DB_HOST     := os.Getenv("DB_HOST")
+		DB_PORT     := os.Getenv("DB_PORT")
+		DB_USER     := os.Getenv("DB_USER")
+		DB_PASSWORD := os.Getenv("DB_PASSWORD")
+		DB_NAME     := os.Getenv("DB_NAME")
+
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 	DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		return nil, err
-	}
+	utils.CheckErr(err)
 	return db, nil
 }
 
@@ -35,23 +39,15 @@ func ConnectDB() (*gorm.DB, error) {
 func main() {
 
 	db, err := ConnectDB()
-	if err != nil {
-		fmt.Println("Failed to connect to the database:", err)
-		return
-	}
+	utils.CheckErr(err)
 	
 	sqlDB, err := db.DB()
-	if err != nil {
-        fmt.Println("Failed to get underlying *sql.DB:", err)
-        return
-    }
+	utils.CheckErr(err)
 	defer sqlDB.Close()
+	
 	// Auto-migrate the table
 	err = db.AutoMigrate(&models.User{})
-	if err != nil {
-		fmt.Println("Failed to perform auto migration:", err)
-		return
-	}
+	utils.CheckErr(err)
 
 	// Perform database query
 	var users []models.User
