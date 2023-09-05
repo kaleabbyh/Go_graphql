@@ -17,6 +17,7 @@ func CheckErr(err error) {
 	}
 }
 
+
 func HashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
@@ -25,6 +26,7 @@ func HashPassword(password string) (string, error) {
 	}
 	return string(hashedPassword), nil
 }
+
 
 func VerifyPassword(hashedPassword string, candidatePassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(candidatePassword))
@@ -41,7 +43,7 @@ func GenerateToken(email string) (string, error) {
 
 	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
-	claims["email"] = "email"
+	claims["email"] = email
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	tokenString, err := token.SignedString([]byte(secret))
@@ -50,7 +52,7 @@ func GenerateToken(email string) (string, error) {
 		return "", err
 	}
 
-	fmt.Println("Generated token:", tokenString)
+	//fmt.Println("Generated token:", tokenString)
 	return tokenString,nil
 }
 

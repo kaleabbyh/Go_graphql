@@ -38,6 +38,7 @@ func main() {
 
 			// User mutation
 			"createUser":resolvers.CreateUser(db),
+			"login"		:resolvers.Login(db),
 			"updateUser":resolvers.UpdateUser(db),
 			"deleteUser": resolvers.DeleteUser(db),
 		},
