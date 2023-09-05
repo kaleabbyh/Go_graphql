@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	models "sample/model"
-	"sample/utils"
+	models "github.com/kaleabbyh/Food_Recipie/model"
+	"github.com/kaleabbyh/Food_Recipie/utils"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"

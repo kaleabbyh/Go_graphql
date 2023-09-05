@@ -2,9 +2,11 @@ package resolvers
 
 import (
 	"database/sql"
-	models "sample/model"
-	"sample/utils"
+	"fmt"
 	"time"
+
+	models "github.com/kaleabbyh/Food_Recipie/model"
+	"github.com/kaleabbyh/Food_Recipie/utils"
 
 	"github.com/graphql-go/graphql"
 	_ "github.com/lib/pq"
@@ -197,10 +199,18 @@ return &graphql.Field{
 
 //get users
 func GetUsers(db *sql.DB) *graphql.Field {
+
+	
 	return  &graphql.Field{
 		Type:        graphql.NewList(userType),
 		Description: "List of users.",
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+
+			email, ok := p.Context.Value("email").(string)
+			if ok {
+				fmt.Println(email)
+			}
+
 			rows, err := db.Query("SELECT * FROM users")
 			utils.CheckErr(err)
 			

@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
-	conn "sample/config"
-	"sample/resolvers"
+
+	conn "github.com/kaleabbyh/Food_Recipie/config"
+	"github.com/kaleabbyh/Food_Recipie/middleware"
+	"github.com/kaleabbyh/Food_Recipie/resolvers"
 
 	"github.com/graphql-go/graphql"
 	"github.com/graphql-go/handler"
@@ -15,7 +16,7 @@ import (
 
 func main() {
 	//DB connection
-
+	
 	db,_:=conn.ConnectDB()
 	defer db.Close()
 
@@ -49,14 +50,18 @@ func main() {
 		Mutation: rootMutation,
 	})
 
+	
 	h := handler.New(&handler.Config{
 		Schema:   &schema,
 		Pretty:   true,
 		GraphiQL: true,
 	})
+	
 
-	// serve HTTP
-	fmt.Println("connected successfully")
-	http.Handle("/graphql", h)
+	authHandler := middleware.AuthMiddleware(h)
+
+	http.Handle("/graphql", authHandler)
 	http.ListenAndServe(":8080", nil)
+
+
 }

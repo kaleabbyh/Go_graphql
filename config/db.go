@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"sample/utils"
+	"github.com/kaleabbyh/Food_Recipie/utils"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -26,6 +26,7 @@ func ConnectDB() (*sql.DB, error){
 	DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
 	db, err := sql.Open("postgres", dbinfo)
 	utils.CheckErr(err)
+	fmt.Println("DB connected successfully")
 	return db, nil
 }
 

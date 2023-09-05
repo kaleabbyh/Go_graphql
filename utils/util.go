@@ -41,7 +41,7 @@ func GenerateToken(email string) (string, error) {
 
 	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
-	claims["email"] = email
+	claims["email"] = "email"
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	tokenString, err := token.SignedString([]byte(secret))
@@ -78,12 +78,8 @@ func ValidateToken(tokenString string) (string, error)  {
 
 	// Check if the token is valid
 	if token.Valid {
-		// Access the claims
 		claims := token.Claims.(jwt.MapClaims)
 		email := claims["email"].(string)
-		//expirationTime := time.Unix(int64(claims["exp"].(float64)), 0)
-
-		fmt.Println("email:", email)
 		return email, nil
 	} else {
 		fmt.Println("Token is invalid")
