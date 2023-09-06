@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+
 	models "github.com/kaleabbyh/Food_Recipie/model"
 	"github.com/kaleabbyh/Food_Recipie/utils"
 
@@ -40,18 +41,46 @@ func main() {
 
 	db, err := ConnectDB()
 	utils.CheckErr(err)
-	
 	sqlDB, err := db.DB()
 	utils.CheckErr(err)
 	defer sqlDB.Close()
-	
-	// Auto-migrate the table
+
+
+	// migrating User table
 	err = db.AutoMigrate(&models.User{})
 	utils.CheckErr(err)
+	fmt.Println("User table successfully migrated")
+
+
+	// migrating Category table
+	err = db.AutoMigrate(&models.Category{})
+	utils.CheckErr(err)
+	fmt.Println("Category table successfully migrated")
+
+	// migrating Recipe table
+	err = db.AutoMigrate(&models.Recipe{})
+	utils.CheckErr(err)
+	fmt.Println("Recipe table successfully migrated")
+
+	// migrating Ingredient table
+	err = db.AutoMigrate(&models.Ingredient{})
+	utils.CheckErr(err)
+	fmt.Println("Ingredient table successfully migrated")
+	
+	// migrating Recipe_ingredient table
+	err = db.AutoMigrate(&models.Recipe_ingredient{})
+	utils.CheckErr(err)
+	fmt.Println("Recipe_ingredient table successfully migrated")
+
+	// migrating Step table
+	err = db.AutoMigrate(&models.Step{})
+	utils.CheckErr(err)
+	fmt.Println("Step table successfully migrated")	
+	
 
 	// Perform database query
 	var users []models.User
 	db.Find(&users)
 
-	fmt.Println(users)
+
 }

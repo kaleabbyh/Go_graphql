@@ -26,8 +26,9 @@ func main() {
 		Fields: graphql.Fields{
 
 			// User query
-			"user": resolvers.GetUser(db),
-			"users":resolvers.GetUsers(db),
+			"getUser": resolvers.GetUser(db),
+			"getUsers":resolvers.GetUsers(db),
+			"getCategories":resolvers.GetCategories(db),
 		},
 	})
 
@@ -41,6 +42,7 @@ func main() {
 			"login"		:resolvers.Login(db),
 			"updateUser":resolvers.UpdateUser(db),
 			"deleteUser": resolvers.DeleteUser(db),
+			"createCategory":resolvers.CreateCategory(db),
 		},
 	})
 
