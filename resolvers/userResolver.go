@@ -249,13 +249,27 @@ return &graphql.Field{
 	},
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 		id, _ := params.Args["id"].(int)
+		user := &models.RegisterUser{}
+		err := db.QueryRow("select id,  email from users where id = $1", id).Scan(&user.ID, &user.Email)
+		utils.CheckErr(err)
 
+		email, ok := params.Context.Value("email").(string)
+		if !ok {
+			fmt.Println(email)
+			return nil, fmt.Errorf(" not authenticated")
+		}
+		
+		
+		if email != user.Email  {
+			return nil, fmt.Errorf(" not authorized")
+		}
 		stmt, err := db.Prepare("DELETE FROM users WHERE id = $1")
 		utils.CheckErr(err)
 
 		_, err2 := stmt.Exec(id)
 		utils.CheckErr(err2)
 
+		// message:=("user with email: $1"+email+ " is deleted")
 		return nil, nil
 	},
 }

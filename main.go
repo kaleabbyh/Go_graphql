@@ -3,12 +3,11 @@ package main
 import (
 	"net/http"
 
+	"github.com/graphql-go/graphql"
+	"github.com/graphql-go/handler"
 	conn "github.com/kaleabbyh/Food_Recipie/config"
 	"github.com/kaleabbyh/Food_Recipie/middleware"
 	"github.com/kaleabbyh/Food_Recipie/resolvers"
-
-	"github.com/graphql-go/graphql"
-	"github.com/graphql-go/handler"
 	_ "github.com/lib/pq"
 )
 
@@ -25,10 +24,11 @@ func main() {
 		Name: "RootQuery",
 		Fields: graphql.Fields{
 
-			// User query
 			"getUser": resolvers.GetUser(db),
 			"getUsers":resolvers.GetUsers(db),
 			"getCategories":resolvers.GetCategories(db),
+			"getIngredients":resolvers.GetIngredients(db),
+			
 		},
 	})
 
@@ -37,12 +37,13 @@ func main() {
 		Name: "RootMutation",
 		Fields: graphql.Fields{
 
-			// User mutation
 			"createUser":resolvers.CreateUser(db),
 			"login"		:resolvers.Login(db),
 			"updateUser":resolvers.UpdateUser(db),
 			"deleteUser": resolvers.DeleteUser(db),
 			"createCategory":resolvers.CreateCategory(db),
+			"createIngredient":resolvers.CreateIngredient(db),
+			"createRecipe":resolvers.CreateRecipe(db),
 		},
 	})
 
