@@ -108,7 +108,8 @@ func CreateIngredient(db *sql.DB) *graphql.Field {
 
 
 
-//get users
+
+//get ingredients
 func GetIngredients(db *sql.DB) *graphql.Field {
 
 	return  &graphql.Field{
