@@ -88,7 +88,10 @@ func CreateIngredient(db *sql.DB) *graphql.Field {
 			
 			
 			var lastInsertId int
-			err := db.QueryRow("INSERT INTO ingredients(ingredient_name, created_at,updated_at) VALUES($1, $2, $3) returning ingredient_id;", ingredient_name,  createdAt,updatedAt).Scan(&lastInsertId)
+			err := db.QueryRow(`INSERT INTO ingredients(ingredient_name, created_at,updated_at)
+								VALUES($1, $2, $3) returning ingredient_id;`, ingredient_name, createdAt,updatedAt).
+								Scan(&lastInsertId)
+
 			utils.CheckErr(err)
 			
 
@@ -124,7 +127,7 @@ func GetIngredients(db *sql.DB) *graphql.Field {
 
 			for rows.Next() {
 				Ingredient := &models.Ingredient{}
-				err = rows.Scan(&Ingredient.Ingredient_id, &Ingredient.Ingredient_name,  &Ingredient.Created_at, &Ingredient.Updated_at)
+				err = rows.Scan(&Ingredient.Ingredient_id, &Ingredient.Ingredient_name, &Ingredient.Created_at, &Ingredient.Updated_at)
 				utils.CheckErr(err)
 				ingredients = append(ingredients, Ingredient)
 			}

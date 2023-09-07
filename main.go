@@ -28,6 +28,8 @@ func main() {
 			"getUsers":resolvers.GetUsers(db),
 			"getCategories":resolvers.GetCategories(db),
 			"getIngredients":resolvers.GetIngredients(db),
+			"getRecipes":resolvers.GetRecipes(db),
+			"getRecipe":resolvers.GetRecipe(db),
 			
 		},
 	})
@@ -44,6 +46,8 @@ func main() {
 			"createCategory":resolvers.CreateCategory(db),
 			"createIngredient":resolvers.CreateIngredient(db),
 			"createRecipe":resolvers.CreateRecipe(db),
+			"deleteRecipe":resolvers.DeleteRecipe(db), 
+			"updateRecipe":resolvers.UpdateRecipe(db),  
 		},
 	})
 
